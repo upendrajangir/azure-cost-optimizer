@@ -2,12 +2,22 @@
 import os
 import requests
 from dotenv import load_dotenv
+import coloredlogs
+import logging
+
 
 # Imports: modules
-
+from auth.app import get_token
 
 # Load environment variables
 load_dotenv()
+
+# Set logging
+logger = logging.getLogger(__name__)
+coloredlogs.install(
+    fmt="%(asctime)s | %(hostname)s | %(levelname)s | %(name)s | %(filename)s:%(lineno)d | %(message)s",
+    level="DEBUG",
+)
 
 
 def main(tenant_id: str, client_id: str, client_secret: str) -> bool:
