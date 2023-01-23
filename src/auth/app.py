@@ -2,7 +2,7 @@
 import requests
 import logging
 
-
+# Set logger
 logger = logging.getLogger(__name__)
 
 
@@ -35,9 +35,13 @@ def get_token(tenant_id: str, client_id: str, client_secret: str) -> str:
         return access_token
     except requests.exceptions.HTTPError as err:
         logger.error(f"HTTP error occurred: {err}")
+        return None
     except requests.exceptions.ConnectionError as err:
         logger.error(f"Error Connecting: {err}")
+        return None
     except requests.exceptions.Timeout as err:
         logger.error(f"Timeout Error: {err}")
+        return None
     except requests.exceptions.RequestException as err:
         logger.error(f"Something went wrong: {err}")
+        return None
