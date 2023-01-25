@@ -1,6 +1,9 @@
 import requests
 import datetime
-import json
+import logging
+
+# Set logger
+logger = logging.getLogger(__name__)
 
 timestamp = (datetime.datetime.today() - datetime.timedelta(days=89)).strftime(
     "%Y-%m-%dT%H:%M:%S.%fZ"
@@ -40,14 +43,21 @@ def get_resource_group_owner(
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "application/json",
     }
-    response = requests.request(
-        "GET", get_event_api, headers=headers, data=event_payload
-    )
+    try: # Try to get the owner of the resource group
+        response = requests.request(
+            "GET", get_event_api, headers=headers, data=event_payload
+        )
+        for data in response.json().get("value"):
+            if (
+                data.get("operationName").get("value") == rg_creation_operation_name
+                and data.get("properties").get("statusCode") == rg_creation_status_code
+                and data.get("resourceGroupName") == resource_group_name
+            ):
+                return data.get("caller")
+    except requests.exceptions.HTTPError as err:
+        logger.error(err)
+        return None
+    except Exception as err:
+        logger.error(err)
+        return None
 
-    for data in response.json().get("value"):
-        if (
-            data.get("operationName").get("value") == rg_creation_operation_name
-            and data.get("properties").get("statusCode") == rg_creation_status_code
-            and data.get("resourceGroupName") == resource_group_name
-        ):
-            return data.get("caller")
