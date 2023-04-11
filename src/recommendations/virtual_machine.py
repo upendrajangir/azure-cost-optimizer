@@ -103,10 +103,9 @@ def analyze_vm_consumption_data(consumption_data: Dict) -> Optional[str]:
     # TODO: Implement specific logic for analyzing consumption data and suggesting a better fit resource SKU.
 
     # Example:
-    # if resource_type == "virtual_machine":
-    #     if average_cpu_usage < threshold:
-    #         return "d2sv3"
-    #     elif ...
+    # cpu average consumption is 40 % and memory average consumption is 50 % and network in is 1000 and network out is 2000 and disk read is 3000 and disk write is 4000,
+    # but the current SKU is Standard_D4s_v3, which has 4 vCPUs and 16 GB memory and 5000 IOPS and 1000 Mbps network bandwidth.
+    # The suggested SKU is Standard_D2s_v3, which has 2 vCPUs and 8 GB memory and 2500 IOPS and 500 Mbps network bandwidth.
 
     suggested_sku = None
 

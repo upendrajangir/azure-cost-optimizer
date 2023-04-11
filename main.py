@@ -13,7 +13,7 @@ from src.tagging import (
     add_ttl_tag,
     fetch_resource_group_creator_email,
 )
-from resources.resource_group import get_resource_groups
+from src.resources.resource_group import get_resource_groups
 
 # Load environment variables
 load_dotenv()
