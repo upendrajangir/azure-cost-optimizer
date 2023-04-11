@@ -91,6 +91,54 @@ def fetch_resource_group_creator_email(
     return creator_email
 
 
+def check_resource_group_owner_email_tag(
+    subscription_id: str, resource_group_name: str, access_token: str
+) -> bool:
+    """
+    Checks if a resource group has an OwnerEmail tag.
+
+    Args:
+        subscription_id (str): The ID of the subscription that the resource group belongs to.
+        resource_group_name (str): The name of the resource group to check.
+        access_token (str): The access token to use for authentication.
+
+    Raises:
+        ValueError: If any of the required parameters are missing or invalid.
+        Exception: If there is an error checking for the OwnerEmail tag.
+
+    Returns:
+        bool: True if the resource group has an OwnerEmail tag, False otherwise.
+    """
+    # Validate input parameters
+    if not subscription_id or not isinstance(subscription_id, str):
+        raise ValueError("Subscription ID is missing or invalid")
+    if not resource_group_name or not isinstance(resource_group_name, str):
+        raise ValueError("Resource group name is missing or invalid")
+    if not access_token or not isinstance(access_token, str):
+        raise ValueError("Access token is missing or invalid")
+
+    # Send request to Azure Management API to get information about the resource group
+    url = f"https://management.azure.com/subscriptions/{subscription_id}/resourceGroups/{resource_group_name}?api-version=2020-06-01"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    response = requests.get(url, headers=headers)
+    if response.status_code == 404:
+        raise Exception(
+            f"Resource group {resource_group_name} not found in subscription {subscription_id}"
+        )
+    elif response.status_code != 200:
+        raise Exception(
+            f"Failed to get resource group information. Error: {response.text}"
+        )
+
+    # Check if the OwnerEmail tag is present
+    resource_group_info = response.json()
+    tags = resource_group_info.get("tags")
+    if tags is not None and "OwnerEmail" in tags:
+        return True
+    else:
+        return False
+
+
 def add_owner_email_tag(
     subscription_id: str, resource_group_name: str, owner_email: str, access_token: str
 ) -> bool:
@@ -147,6 +195,54 @@ def add_owner_email_tag(
         f"Successfully added OwnerEmail tag to resource group {resource_group_name}."
     )
     return True
+
+
+def check_resource_group_ttl_tag(
+    subscription_id: str, resource_group_name: str, access_token: str
+) -> bool:
+    """
+    Checks if a resource group has a TTL tag.
+
+    Args:
+        subscription_id (str): The ID of the subscription that the resource group belongs to.
+        resource_group_name (str): The name of the resource group to check.
+        access_token (str): The access token to use for authentication.
+
+    Raises:
+        ValueError: If any of the required parameters are missing or invalid.
+        Exception: If there is an error checking for the TTL tag.
+
+    Returns:
+        bool: True if the resource group has a TTL tag, False otherwise.
+    """
+    # Validate input parameters
+    if not subscription_id or not isinstance(subscription_id, str):
+        raise ValueError("Subscription ID is missing or invalid")
+    if not resource_group_name or not isinstance(resource_group_name, str):
+        raise ValueError("Resource group name is missing or invalid")
+    if not access_token or not isinstance(access_token, str):
+        raise ValueError("Access token is missing or invalid")
+
+    # Send request to Azure Management API to get information about the resource group
+    url = f"https://management.azure.com/subscriptions/{subscription_id}/resourceGroups/{resource_group_name}?api-version=2020-06-01"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    response = requests.get(url, headers=headers)
+    if response.status_code == 404:
+        raise Exception(
+            f"Resource group {resource_group_name} not found in subscription {subscription_id}"
+        )
+    elif response.status_code != 200:
+        raise Exception(
+            f"Failed to get resource group information. Error: {response.text}"
+        )
+
+    # Check if the TTL tag is present
+    resource_group_info = response.json()
+    tags = resource_group_info.get("tags")
+    if tags is not None and "TTL" in tags:
+        return True
+    else:
+        return False
 
 
 def add_ttl_tag(

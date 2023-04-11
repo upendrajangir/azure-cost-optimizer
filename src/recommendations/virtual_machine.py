@@ -101,7 +101,6 @@ def analyze_vm_consumption_data(consumption_data: Dict) -> Optional[str]:
 
     # Analyze consumption data
     # TODO: Implement specific logic for analyzing consumption data and suggesting a better fit resource SKU.
-    # This should include analyzing the consumption data for different Azure resources like VMs, databases, and storage accounts.
 
     # Example:
     # if resource_type == "virtual_machine":

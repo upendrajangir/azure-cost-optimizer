@@ -9,6 +9,11 @@ __pycache__/
 # C extensions
 *.so
 
+# Extraa debugging files
+temp
+temp.*
+temp/*
+
 # Distribution / packaging
 .Python
 build/

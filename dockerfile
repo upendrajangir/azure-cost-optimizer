@@ -10,4 +10,4 @@ RUN apk add --no-cache --virtual .build-deps \
     && pip install --no-cache-dir -r requirements.txt \
     && apk del .build-deps
 
-CMD ["python", "src/main.py"]
+CMD ["python", "main.py"]
