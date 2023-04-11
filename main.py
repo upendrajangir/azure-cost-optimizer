@@ -1,13 +1,11 @@
 # Imports: pypi libraries
 import os
-import requests
 from dotenv import load_dotenv
 import coloredlogs
 import logging
 
-
 # Imports: modules
-from auth.app import get_token
+from src.auth import get_access_token_service_principal
 
 # Load environment variables
 load_dotenv()

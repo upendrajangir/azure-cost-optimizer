@@ -5,7 +5,15 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def send_email(email: str, password: str, recipient: str, subject: str, body: str, host: str = "smtp.gmail.com", port: int = 587) -> bool:
+def send_email(
+    email: str,
+    password: str,
+    recipient: str,
+    subject: str,
+    body: str,
+    host: str = "smtp.gmail.com",
+    port: int = 587,
+) -> bool:
     """Send email using SMTP server (default == Gmail).
 
     Args:

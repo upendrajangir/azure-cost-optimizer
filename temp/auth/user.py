@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def get_token(tenant_id: str, email_id: str, password: str) -> str:
+def get_access_token_user_credentials(tenant_id: str, email_id: str, password: str) -> str:
     """
     This function gets an access token from Azure AD.
 
